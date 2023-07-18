@@ -13,8 +13,11 @@ const deleteUsuarios = (req,res)=>{
 };
 
 const insertUsuario = (req,res)=>{
+    const {nombre, gustos} = req.body; 
     res.json({
-        "message":"post api"
+        "message":"post api asdasd",
+        nombre,
+        gustos
     })
     
 };
