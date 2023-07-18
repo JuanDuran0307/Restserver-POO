@@ -1,3 +1,7 @@
+const Usuario = require("../models/usuario.js");
+const bcryptjs = require('bcryptjs');
+
+
 const getUsuarios = (req,res)=>{
     res.json({
 
@@ -12,12 +16,28 @@ const deleteUsuarios = (req,res)=>{
 
 };
 
-const insertUsuario = (req,res)=>{
-    const {nombre, gustos} = req.body; 
+const insertUsuario = async (req,res)=>{
+ 
+
+    const {nombre,email,password,rol} = req.body; 
+    const usuario = new Usuario({nombre,email,password,rol});
+    await usuario.save();
+    /* verfificar si el email ya existe */
+    const existeEmail = await Usuario.findOne({email});
+        if(existeEmail){
+            return res.status(400).json({
+                msg: "Email is already registered"
+            })
+        };
+
+    /* eNCRIPTAR NUESTRAS CONTRASEÑAS */
+    const salt = bcryptjs.genSaltSync();
+    usuario.password = bcryptjs.hashSync(password, salt);
+
+
     res.json({
         "message":"post api asdasd",
-        nombre,
-        gustos
+        usuario
     })
     
 };
