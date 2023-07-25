@@ -26,7 +26,7 @@ const UsuarioSchema = Schema({
     },
     estado:{
         type:Boolean,
-        default:true
+        default:false
     },
     googleSignIn:{
         type:Boolean,
